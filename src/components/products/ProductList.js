@@ -3,7 +3,8 @@ import HeaderProducts from '../../components/products/HeaderProducts';
 import { Button, Label, Menu, Table, Container,Image} from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { getProducts } from '../../actions';
-import FontAwesome from 'react-fontawesome';
+
+import ProductItem from './ProductItem';
 class ProductList extends React.Component {
     constructor(props) {
         super(props);
@@ -44,23 +45,7 @@ class ProductList extends React.Component {
 
                         <Table.Body>
                             {this.state.products.map(item => {
-                                return (<Table.Row>
-                                     <Table.Cell>
-                                     <Image src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5d_Un6zihdvxaylaXa-_XzhENCPWRTJ_Flk86WvGCz-6G1PPq'} size='tiny' verticalAlign='middle' />
-                                     </Table.Cell>
-                                    <Table.Cell  verticalAlign='middle'>{item.productName}</Table.Cell>
-                                    <Table.Cell  verticalAlign='middle'> {item.productPrice}</Table.Cell>
-                                    <Table.Cell  verticalAlign='middle'> {item.discount}</Table.Cell>
-                                    <Table.Cell  verticalAlign='middle'> {item.quantity}</Table.Cell>
-                                    <Table.Cell  verticalAlign='middle'> {item.sku}</Table.Cell>
-                                    <Table.Cell  verticalAlign='middle'> 
-                                    <Button.Group>
-                                    <Button style={{background:'#f5f5f5',color:'green'}}> <FontAwesome  className='menu-icon' name={'image'} size={'lg'} /></Button>
-                                        <Button style={{background:'#f5f5f5',color:'green'}}> <FontAwesome  className='menu-icon' name={'edit'} size={'lg'} /></Button>
-                                        <Button style={{background:'#f5f5f5',color:'red'}} ><FontAwesome  className='menu-icon' name={'trash'} size={'lg'} /></Button>
-                                    </Button.Group>
-                                    </Table.Cell>
-                                </Table.Row>)
+                                return (<ProductItem item={item} history={this.props.history} />)
                             })}
                         </Table.Body>
 
@@ -71,7 +56,6 @@ class ProductList extends React.Component {
         );
 
     }
-
 }
 
 const mapStateToProps = state => ({

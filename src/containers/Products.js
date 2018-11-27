@@ -8,7 +8,7 @@ constructor(props){
   }
 
   render(){
-    return (<ProductList onAddClick={this.onAddClick}  />);
+    return (<ProductList onAddClick={this.onAddClick}  history={this.props.history} />);
   }
 
   onAddClick=()=>{
