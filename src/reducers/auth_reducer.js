@@ -7,14 +7,17 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAIL,
   FORGOT_PWD_SUCCESS,
-  FORGOT_PWD_FAIL
+  FORGOT_PWD_FAIL,
+  USER_LIST_SUCCESS,
+  USER_LIST_FAIL
 } from '../actions/types';
 
 const initialState = {
   loggedIn: false,
   user: null,
   error: '',
-  msg:''
+  msg:'',
+  userList:null
 }
 export default (state = initialState, action) => {
   switch(action.type) {
@@ -37,7 +40,10 @@ export default (state = initialState, action) => {
     case FORGOT_PWD_SUCCESS:
       return { msg: action.payload.msg,error:''};
     case FORGOT_PWD_FAIL:
-      return { msg: '',error:action.payload};   
+      return { msg: '',error:action.payload}; 
+    case USER_LIST_SUCCESS:
+      return { msg: '',userList:action.payload};   
+      
     default: 
       return state;
   }

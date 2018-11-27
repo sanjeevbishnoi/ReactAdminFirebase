@@ -1,74 +1,69 @@
 import React from 'react';
 import {
   Form,
-  Button,
-  Image
+  Button
 } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
-import DropZoneField from '../../utils/FileInput';
-import isEmpty from "lodash/isEmpty";
-
-const imageIsRequired = value => (isEmpty(value) ? "Required" : undefined);
+//import CustomValidations from  '../../utils/validations';
 
 class AddProductForm extends React.Component {
   constructor(props){
     super(props);
-    this.state={
-      imageFile: []
-    }
   }
-
-  handleOnDrop = newImageFile => this.setState({ imageFile: newImageFile });
-
-  resetForm = () => {
-    this.setState({ imageFile: [] });
-    this.props.reset();
-  };
-
   render() {
     const { handleSubmit, submitting } = this.props;
-
     return (
       <div>
         <Form onSubmit={handleSubmit}>
-          <div className="form-group">
-          <Field
-          name="imageToUpload"
-          component={DropZoneField}
-          type="file"
-          imagefile={this.state.imageFile}
-          handleOnDrop={this.handleOnDrop}
-          validate={[imageIsRequired]}
-        />
-          </div>
+
           <div className='form-group'>
             <Field
-              label='Name'
+              label='Product Name'
               placeholder='*********'
-              name='name'
+              name='productName'
               type='text'
               component={renderField}
             />
           </div>
           <div className='form-group'>
             <Field
-              label='Email'
-              placeholder='john@doe.com'
-              name='email'
-              type='email'
+              label='Product Price'
+              placeholder='Enter Product Price'
+              name='productPrice'
+              type="number"
               component={renderField}
             />
           </div>
           <div className='form-group'>
             <Field
-              label='Password'
-              placeholder='*********'
-              name='password'
-              type='password'
+              label='Product Discount'
+              placeholder='Enter Product Discount in %'
+              name='discount'
+              type='text'
               component={renderField}
             />
           </div>
 
+           <div className='form-group'>
+            <Field
+              label='Product SKU'
+              placeholder='Enter Product Discount in %'
+              name='sku'
+              type='text'
+              component={renderField}
+            />
+          </div>
+
+           <div className='form-group'>
+            <Field
+              label='Quantity'
+              placeholder='Enter Product Discount in %'
+              name='quantity'
+              type='text'
+              component={renderField}
+            />
+          </div>
+          
           <Button
             disabled={submitting}
             className='btnCommon btnPrimary'
@@ -82,32 +77,50 @@ class AddProductForm extends React.Component {
 const validate = values => {
   const errors = {};
 
-  if (!values.name) {
-    errors.name = 'Required';
-  } else if (values.name.length < 2) {
-    errors.name = 'Minimum 2 characters';
+  if (!values.productName) {
+    errors.productName = 'Required';
+  } else if (values.productName.length < 2) {
+    errors.productName = 'Minimum 2 characters';
   }
 
-  if (!values.email) {
-    errors.email = 'Required';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid Email Address';
+  if (!values.productPrice) {
+    errors.productPrice = 'Required';
+  } else if(isNaN(Number(values.productPrice))) {
+    errors.productPrice = 'Invalid valid number';
   }
 
-  if (!values.password) {
-    errors.password = 'Required';
-  } else if (values.password.length < 6) {
-    errors.password = 'Minimum 6 characters';
+  if (!values.discount) {
+    errors.discount = 'Required';
+  } else if (isNaN(Number(values.discount))) {
+    errors.discount = 'Invalid valid number';
+  }
+
+  if (!values.discount) {
+    errors.discount = 'Required';
+  } else if (isNaN(Number(values.discount))) {
+    errors.discount = 'Invalid valid number';
+  }
+
+  if (!values.sku) {
+    errors.sku = 'Required';
+  } else if (isNaN(Number(values.sku))) {
+    errors.sku = 'Invalid valid number';
+  }
+
+  if (!values.quantity) {
+    errors.quantity = 'Required';
+  } else if (isNaN(Number(values.quantity))) {
+    errors.quantity = 'Invalid valid number';
   }
 
   return errors;
 }
 
-const renderField = ({ input, label, type, meta: { touched, error } }) => (
+const renderField = ({ input, label, type, meta: { touched, error,warning } }) => (
   <div>
     <label>{label}</label>
     <input {...input} type={type} />
-    {touched && (error && <p className='error'>{error}</p>)}
+    {touched && ((error && <p className='error'>{error}</p>) || (warning && <p className='warning'>{warning}</p>))}
   </div>
 )
 

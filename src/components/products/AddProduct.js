@@ -5,7 +5,7 @@ import {
   Divider 
 } from 'semantic-ui-react';
 
-import { createUser } from '../../actions';
+import { addProduct } from '../../actions';
 
 import NavBar from '../NavBar';
 import AddProductForm from './AddProductForm';
@@ -16,15 +16,11 @@ class AddProduct extends React.Component {
 
   onSubmit = (values) => {
     this.setState({ loading: true });
-    this.props.createUser(values);
+    this.props.addProduct(values);
   }
-
+  
   componentWillReceiveProps(nextProps) {
-    const { loggedIn } = nextProps.auth;
-    
-    if (!loggedIn) {
-      this.setState({ error: nextProps.auth.error });
-    }
+     // this.setState({ error: nextProps.auth.error });
   }
 
   renderError = () => {
@@ -51,7 +47,7 @@ class AddProduct extends React.Component {
             <div  className='vCard'>
              
               {this.renderError()}
-              <AddProductForm onSubmit={this.onSubmit} />
+              <AddProductForm onSubmit={this.onSubmit}  submitting={this.state.loading} />
             </div>
           
         </div>     
@@ -62,7 +58,7 @@ class AddProduct extends React.Component {
 
 const mapStateToProps = state => ({
   form: state.form,
-  auth: state.auth
+  products: state.products
 })
 
-export default connect(mapStateToProps, { createUser } )(AddProduct);
+export default connect(mapStateToProps, { addProduct } )(AddProduct);

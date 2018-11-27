@@ -9,7 +9,9 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAIL,
   FORGOT_PWD_SUCCESS,
-  FORGOT_PWD_FAIL
+  FORGOT_PWD_FAIL,
+  USER_LIST_SUCCESS,
+  USER_LIST_FAIL
 } from './types';
 
 export const createUser = (values) => async (dispatch) => {
@@ -120,4 +122,15 @@ export const forgotPassword = (values) => async (dispatch) => {
 export const signOut = () => dispatch => {
   firebase.auth().signOut();
   dispatch({ type: LOGOUT });
+}
+
+export const getAllUsers = () => dispatch => {
+  firebase.database().ref('users/').once("value").then(((snapShot)=>{
+    let users=[];
+   snapShot.forEach((item=>{
+    users.push({key:item.key,name:item.val().name,email:item.val().email} );
+   }));
+   console.log(users);
+   dispatch({ type: USER_LIST_SUCCESS, payload: users});
+  }));
 }
